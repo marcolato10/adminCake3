@@ -1,0 +1,31 @@
+observaciones>>
+
+1.- agregar usuarios
+    1.1.- validar documento con el username del usuario
+2.- login    
+
+
+
+>> resetear el password
+https://www.youtube.com/watch?v=z2G4XWbcfEM&ab_channel=CodeTube
+
+
+
+
+
+>>doc VALIDACIONES
+tutorial : 11. Curso de CakePHP 3 - Validaciones.
+https://www.youtube.com/watch?v=m7M__jNltgI&list=PL-9WnOL7eRJZFoTXKm7EvR_p38rtF87YH&index=12&ab_channel=EdsonMollericonaMarin
+
+
+
+Validating Data
+https://book.cakephp.org/3/en/orm/validation.html
+
+Validation
+https://book.cakephp.org/3/en/core-libraries/validation.html
+
+
+
+
+
