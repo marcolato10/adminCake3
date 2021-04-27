@@ -1,7 +1,7 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\User;  //no se para que es
+//use App\Model\Entity\User;  //no se para que es
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -33,7 +33,7 @@ class UsersTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
+        //parent::initialize($config);
 
         $this->setTable('users');
         $this->setDisplayField('id');
@@ -57,7 +57,8 @@ class UsersTable extends Table
     {
         $validator
             ->add('id','valid',['rule' => 'numeric'])
-            ->notEmpty('id', 'create');
+            //->notEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->scalar('first_name')
@@ -93,6 +94,12 @@ class UsersTable extends Table
             ->requirePresence('active', 'create')
             ->notEmptyString('active');
 
+        $validator
+            ->scalar('token')
+            ->maxLength('token', 500);
+         
+            
+
         return $validator;
     }
 
@@ -110,7 +117,7 @@ class UsersTable extends Table
     public function findAuth(\Cake\ORM\Query $query, array $options)
     {
         $query
-            ->select(['id', 'first_name', 'last_name', 'email', 'password', 'role'])
+            ->select(['id', 'first_name', 'last_name', 'email', 'password', 'role','token'])
             ->where(['Users.active' => 1]);
 
         return $query;

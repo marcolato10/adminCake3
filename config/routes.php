@@ -47,15 +47,15 @@ Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
     // Register scoped middleware for in scopes.
-    $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
+    /*$routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
         'httpOnly' => true,
-    ]));
+    ]));*/
 
     /*
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered through `Application::routes()` with `registerMiddleware()`
      */
-    $routes->applyMiddleware('csrf');
+    //$routes->applyMiddleware('csrf');
 
     /*
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -97,11 +97,29 @@ Router::scope('/', function (RouteBuilder $routes) {
 //Router::connect('/users/index',['controller'=>'Users','action'=>'index']);
   
   Router::scope('/users', function($routes){
+    
+    $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
+        'httpOnly' => true,
+    ]));
+    $routes->applyMiddleware('csrf');    
       $routes->connect('/index',['controller'=>'Users','action'=>'index']);  
       $routes->connect('/view',['controller'=>'Users','action'=>'view']);  
       
+      $routes->connect('/resetpassword',['controller'=>'Users','action'=>'resetpassword']);  
+      $routes->connect('/forgotpassword',['controller'=>'Users','action'=>'forgotpassword']);  
   });  
+  Router::scope('/tipos-de-como-loguearse', function($routes){
+   
+    $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
+        'httpOnly' => true,
+    ]));
+    $routes->applyMiddleware('csrf');
 
+    $routes->connect('/inicio',['controller'=>'Documentos','action'=>'index']);  
+    $routes->connect('/view',['controller'=>'Documentos','action'=>'view']);  
+    
+    
+});  
 
 /*
  * If you need a different set of middleware or none at all,

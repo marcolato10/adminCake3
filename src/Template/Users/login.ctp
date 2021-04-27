@@ -17,11 +17,14 @@
 				</div>
 				<hr class="colorgraph">
 				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
+					<div class="col-xs-4 col-sm-4 col-md-4">
                         <?= $this->Form->button('Acceder', ['class' => 'btn btn-lg btn-success btn-block']) ?>
 					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6">
+					<div class="col-xs-4 col-sm-4 col-md-4">
 						<?= $this->Html->link('Registrarse', ['controller' => 'Users', 'action' => 'add'], ['class' => 'btn btn-lg btn-primary btn-block']) ?>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4">
+						<?= $this->Html->link('Rec. contraseña', ['controller' => 'Users', 'action' => 'forgotpassword'], ['class' => 'btn btn-lg btn-info btn-block']) ?>
 					</div>
 				</div>
 			</fieldset>

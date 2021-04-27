@@ -9,7 +9,11 @@ observaciones>>
 >> resetear el password
 https://www.youtube.com/watch?v=z2G4XWbcfEM&ab_channel=CodeTube
 
+>> Register and Email Verification with CakePHP [Part 9]
+https://www.youtube.com/watch?v=JhUu7C1UW2U&ab_channel=CodeTube
 
+//ejemplo de envio de mail
+https://kiuvox.com/cakephp-3-como-enviar-correo-electronico-utilizando-gmail/
 
 
 

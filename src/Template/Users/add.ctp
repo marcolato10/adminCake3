@@ -21,7 +21,7 @@
             echo $this->Form->input('email', ['label' => 'Correo electrónico', 'class' =>'form-control input-lg']);
             echo $this->Form->input('password', ['label' => 'Contraseña', 'value' => '', 'class' =>'form-control input-lg']);
             //echo $this->Form->input('role', ['options' => ['admin' => 'administrador', 'user' => 'usuario'],'class' =>'form-control input-lg']);
-            echo $this->Form->input('documento_id', ['label' => 'Documento', 'options' => ['1' => 'email', '2' => 'rut'],'class' =>'form-control input-lg']);
+            echo $this->Form->input('documento_id', ['label' => 'Documento', 'options' => ['1' => 'email', '2' => 'rut', '8' => 'dni'],'class' =>'form-control input-lg']);
           
         ?>
     

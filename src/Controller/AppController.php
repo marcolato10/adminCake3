@@ -40,7 +40,7 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-
+        //$this->loadComponent('Csrf');
         $this->loadComponent('RequestHandler', [ //ml: nos permite trabajar con peticiones ajax
             'enableBeforeRedirect' => false,
         ]);
@@ -114,6 +114,7 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         $this->set('current_user', $this->Auth->user());
+        //$this->Auth->allow(['forgotpassword','resetpassword']);
     }
 
 

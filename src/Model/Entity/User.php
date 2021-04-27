@@ -43,6 +43,7 @@ class User extends Entity
         'documento_id' => true,
         'documento' => true,
         'id' => false,
+        'token' => true,
     ];
 
     /**

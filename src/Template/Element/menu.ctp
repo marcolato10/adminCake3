@@ -25,6 +25,15 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tipos de Logueos<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <?=  $this->Html->link('Listar ', ['controller' => 'Documentos', 'action' => 'index']) ?>
+                            </li>
+                           
+                        </ul>
+                    </li>
                     <?php endif; ?>
                     <li>
                         <?= $this->Html->link('Mi lista', ['controller' => 'bookmarks', 'action' => 'index']) ?>

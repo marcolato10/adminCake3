@@ -2,6 +2,10 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Mailer\Email;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Utility\Security;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -14,7 +18,11 @@ class UsersController extends AppController
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['add']); //nos permite usar las acciones aunque no estemos logueado
+        $this->Auth->allow(['add','forgotpassword','resetpassword']); //nos permite usar las acciones aunque no estemos logueado
+       
+
+     
+
     }
 
 
@@ -33,6 +41,100 @@ class UsersController extends AppController
     }
 
 
+
+
+    public function forgotpassword(){
+
+        if($this->request->is('post')){
+            $myemail = $this->request->getData('email');
+            $mytoken = Security::hash(Security::randomBytes(25));
+
+            $userTable = TableRegistry::get('Users');
+            $user = $userTable->find('all')->where(['email'=>$myemail])->first();
+            $user->password='';
+            $user->token=$mytoken;
+            if($userTable->save($user)){
+                $this->Flash->success('El enlace de restablecimiento de contraseña se ha enviado a su correo electrónico ('.$myemail.' 
+                por favor abra su bandeja de entrada.)');
+
+              
+
+                    Email::configTransport('mail', [
+                        'host' => 'ssl://smtp.gmail.com', //servidor smtp con encriptacion ssl
+                        'port' => 465, //puerto de conexion
+                        
+                        
+                        //cuenta de correo gmail completa desde donde enviaran el correo
+                        'username' => 'latoprogramador@gmail.com', 
+                        'password' => 'profesorsi', //contrasena
+                        
+                        //Establecemos que vamos a utilizar el envio de correo por smtp
+                        'className' => 'Smtp', 
+                        
+                        //evitar verificacion de certificado ssl ---IMPORTANTE---
+                        /*'context' => [
+                          'ssl' => [
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                          ]
+                        ]*/
+                      ]); 
+                      /*fin configuracion de smtp*/
+
+                 /*enviando el correo*/
+                $correo = new Email(); //instancia de correo
+                $correo
+                ->transport('mail') //nombre del configTrasnport que acabamos de configurar
+                ->emailFormat('html') //formato de correo
+                ->to($myemail) //correo para
+                ->from('latoprrogramador@gmail.com') //correo de
+                ->subject('Correo de prueba en cakephp3') //asunto
+                ->send();
+               ;          
+
+                /*
+                Email::configTransport('mailtrap', [
+                    'host' => 'smtp.mailtrap.io',
+                    'port' => 2525,
+                    'username' => 'cb21c197330efc',
+                    'password' => 'f35bd3ca28ba24',
+                    'className' => 'Smtp'
+                  ]);
+
+                $email = new Email('default');
+                $email->transport('mailtrap');
+                $email->emailFormat('html');
+                $email->from('latoprogramador@gmail.com','Marco Latorre');
+                $email->subject('Por favor confirme su restablecimiento de contraseña.');
+                $email->to($myemail);
+                $email->send('Hola '.$myemail.'</br></br>haga clic en el enlace de abajo para restablecer su contraseña</br></br><a href="http://adminCake3/users/resetpassword/'.$mytoken.'">
+                restablecer la contraseña</a>');    
+                */    
+                    
+            }
+        
+        }
+
+    }
+    
+    
+    public function resetpassword($token){
+
+        if($this->request->is('post')){
+            $hasher= new DefaultPasswordHasher();
+            //$mypass= $hasher->hash($this->request->getData('password'));
+            $mypass= $this->request->getData('password');
+            $userTable = TableRegistry::get('Users');
+            $user = $userTable->find('all')->where(['token'=>$token])->first();
+            $user->password = $mypass;
+            
+            if($userTable->save($user)){
+            return $this->redirect(['action' => 'login']);
+            }
+        
+        }    
+    }
 
 
 
@@ -69,10 +171,16 @@ class UsersController extends AppController
         $this->render();
     }
 
+
+
+
+
     public function index(){
-       
+
+        
         $users = $this->paginate($this->Users);
-        $this->set('users',$users);
+        //$this->set('users',$users);
+        $this->set(compact('users'));
 
     }
 
@@ -129,16 +237,24 @@ class UsersController extends AppController
 
     }
 
-
+    /**
+     * delete method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
 
     public function delete($id = null)
     {
-        
-        debug('eliminamos a: '. $id);exit();
+        //$token = $this->request->getParam('_csrfToken');
+        //debug($token);exit();
 
-        /*
+        
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
+
+        //debug($user);exit();
 
         if ($this->Users->delete($user))
         {
@@ -149,7 +265,7 @@ class UsersController extends AppController
             $this->Flash->error('El usuario no pudo ser eliminado. Por favor, intente nuevamente.');
         }
         return $this->redirect(['action' => 'index']);
-        */
+        
     
     }
 
